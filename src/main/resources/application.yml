@@ -1,0 +1,13 @@
+
+
+logging:
+  level:
+    io.github.cooperlyt: INFO
+
+server:
+  port: 80
+
+rocks:
+  dbs:
+    fs:
+      filename: fs-db
