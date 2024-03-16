@@ -7,7 +7,13 @@ logging:
 server:
   port: 80
 
+person:
+  people:
+    card:
+      validExpire: true
+
 rocks:
+  enabled: true
   dbs:
     fs:
       filename: fs-db

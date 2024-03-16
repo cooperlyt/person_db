@@ -21,7 +21,7 @@ class DefaultRocksDbService(rocksDBProperties: RocksDBProperties) {
     }
 
 
-    fun get(db: String, key: String): Optional<ByteArray> {
+    suspend fun get(db: String, key: String): Optional<ByteArray> {
 
         val repository = repositories[db] ?: throw IllegalArgumentException("No repository found for $db")
 
@@ -29,7 +29,7 @@ class DefaultRocksDbService(rocksDBProperties: RocksDBProperties) {
 
     }
 
-    fun put(db: String, key: String, value: ByteArray): Boolean {
+    suspend fun put(db: String, key: String, value: ByteArray): Boolean {
 
         val repository = repositories[db] ?: throw IllegalArgumentException("No repository found for $db")
 
@@ -37,7 +37,7 @@ class DefaultRocksDbService(rocksDBProperties: RocksDBProperties) {
 
     }
 
-    fun delete(db: String, key: String): Boolean {
+    suspend fun delete(db: String, key: String): Boolean {
 
         val repository = repositories[db] ?: throw IllegalArgumentException("No repository found for $db")
 

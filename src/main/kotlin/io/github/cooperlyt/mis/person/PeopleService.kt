@@ -1,11 +1,13 @@
 package org.example.io.github.cooperlyt.mis.person
 
 import io.github.cooperlyt.commons.data.PeopleCardInfo
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.time.LocalDateTime
 import java.util.*
 import javax.imageio.ImageIO
 
@@ -13,16 +15,36 @@ import javax.imageio.ImageIO
 @Service
 class PeopleService(private val peopleCardRepository: PeopleCardRepository) {
 
+
+    @Value("\${person.people.card.validExpire:true}")
+    private var validExpire = true;
+
     companion object {
         private val log = org.slf4j.LoggerFactory.getLogger(PeopleService::class.java)
     }
 
-    fun putPeopleCard(cardInfo: PeopleCardInfo): Boolean {
+    suspend fun putPeopleCard(cardInfo: PeopleCardInfo): Boolean {
         return peopleCardRepository.save(cardInfo.id, cardInfo)
     }
 
-    fun getPeopleCard(id: String): Optional<PeopleCardInfo> {
+    suspend fun getPeopleCard(id: String): Optional<PeopleCardInfo> {
+        val card = peopleCardRepository.get(id)
+        if (card.isPresent && validExpire) {
+            val expire = card.get().expireEnd
+            if (expire != null && LocalDateTime.now().isAfter(expire)) {
+                log.info("People card $id is expired")
+                return Optional.empty()
+            }
+        }
+        return card
+    }
+
+    suspend fun getPeoplePicture(id: String): ByteArray {
         return peopleCardRepository.get(id)
+            .map { it.picture }
+            .map(::convertedPicture)
+            .orElseGet(::noPicture)
+
     }
 
     private fun convertedPicture(picture: String): ByteArray {
@@ -52,11 +74,5 @@ class PeopleService(private val peopleCardRepository: PeopleCardRepository) {
         return inputStream.readAllBytes()
     }
 
-    fun getPeoplePicture(id: String): ByteArray {
-        return peopleCardRepository.get(id)
-            .map { it.picture }
-            .map(::convertedPicture)
-            .orElseGet(::noPicture)
 
-    }
 }
