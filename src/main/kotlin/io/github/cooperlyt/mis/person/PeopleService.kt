@@ -48,7 +48,8 @@ class PeopleService(private val peopleCardRepository: PeopleCardRepository) {
     }
 
     private fun convertedPicture(picture: String): ByteArray {
-        val imageBytes: ByteArray = Base64.getDecoder().decode(picture)
+        val base64Picture = picture.substringAfter(",")
+        val imageBytes: ByteArray = Base64.getDecoder().decode(base64Picture)
 
 
         // 将图片数据转换为 BufferedImage

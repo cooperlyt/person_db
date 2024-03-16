@@ -4,8 +4,19 @@ logging:
   level:
     io.github.cooperlyt: INFO
 
+mis:
+  jackson:
+    zoned-date:
+      enable: true
+      local-time-zone: Asia/Shanghai
+
+spring:
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+
 server:
-  port: 80
+  port: 8081
 
 person:
   people:
@@ -13,7 +24,8 @@ person:
       validExpire: true
 
 rocks:
-  enabled: true
+  path: /tmp/rocksdb
+  enabled: false
   dbs:
     fs:
       filename: fs-db

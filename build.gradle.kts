@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "io.github.cooperlyt"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 
 repositories {
     mavenCentral()
@@ -20,6 +20,8 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    implementation("io.github.cooperlyt.mis:commons-cloud-spring-boot-starter:2.1.8")
 
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.2.2")
 

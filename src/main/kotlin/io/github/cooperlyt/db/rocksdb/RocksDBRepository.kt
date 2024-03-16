@@ -9,12 +9,12 @@ import java.nio.file.Files
 import java.util.*
 
 
-abstract class RocksDBRepository<V: Any>(dbFilename: String): KVRepository<String, V> {
+abstract class RocksDBRepository<V: Any>(dbFilename: String, path: String = "/Users/cooper/Downloads"): KVRepository<String, V> {
 
     companion object {
         private val log = org.slf4j.LoggerFactory.getLogger(RocksDBRepository::class.java)
 
-        private const val DB_FILE_PATH = "/var/lib/rocksdb"
+        //private const val DB_FILE_PATH = "/var/lib/rocksdb"
     }
 
     abstract fun serialize(value: V): ByteArray;
@@ -26,7 +26,7 @@ abstract class RocksDBRepository<V: Any>(dbFilename: String): KVRepository<Strin
         RocksDB.loadLibrary()
         val options = Options()
         options.setCreateIfMissing(true)
-        val dbDir = File(DB_FILE_PATH, dbFilename)
+        val dbDir = File(path, dbFilename)
         try {
             Files.createDirectories(dbDir.getParentFile().toPath())
             Files.createDirectories(dbDir.getAbsoluteFile().toPath())
