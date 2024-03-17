@@ -25,7 +25,7 @@ class PeopleController(private val peopleService: PeopleService) {
 
     @GetMapping("/card/{id}")
     fun getPeopleCard(@PathVariable("id") id: String): Mono<PeopleCardInfo> {
-        return mono { peopleService.getPeopleCard(id) }
+        return mono { peopleService.getPeopleCard(id.uppercase()) }
             .filter{ it.isPresent }
             .switchIfEmpty(Mono.error(HttpClientErrorException(HttpStatus.NOT_FOUND)))
             .map{ it.get() }
@@ -34,7 +34,7 @@ class PeopleController(private val peopleService: PeopleService) {
     @GetMapping("/card/{id}/picture")
     fun getPeoplePicture(@PathVariable("id") id: String, response: ServerHttpResponse): Mono<Void> {
         response.headers.contentType = MediaType.IMAGE_JPEG
-        return response.writeWith(mono { peopleService.getPeoplePicture(id) }
+        return response.writeWith(mono { peopleService.getPeoplePicture(id.uppercase()) }
             .filter{ it.isPresent }
             .map { it.get() }
             .map{ response.bufferFactory().wrap(it) }
