@@ -41,8 +41,8 @@ abstract class RocksDBRepository<V: Any>(dbFilename: String, path: String = "/va
 
     @Synchronized
     override fun save(key: String, value: V): Boolean {
-        log.info("save")
         try {
+            log.info("saving key '{}'", key)
             db.put(key.toByteArray(), serialize(value))
         } catch (e: RocksDBException) {
             log.error("Error saving entry in RocksDB, cause: {}, message: {}", e.cause, e.message)
@@ -54,6 +54,7 @@ abstract class RocksDBRepository<V: Any>(dbFilename: String, path: String = "/va
     @Synchronized
     override fun get(key: String): Optional<V> {
         try {
+            log.info("retrieving key '{}'", key)
             val bytes = db[key.toByteArray()]
             return if (bytes != null) Optional.of(deserialize(bytes)) else Optional.empty()
         } catch (e: RocksDBException) {
