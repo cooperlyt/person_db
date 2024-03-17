@@ -1,7 +1,7 @@
 package org.example.io.github.cooperlyt.mis.person
 
 import io.github.cooperlyt.commons.data.PeopleCardInfo
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Service
 import java.awt.image.BufferedImage
@@ -13,11 +13,10 @@ import javax.imageio.ImageIO
 
 
 @Service
-class PeopleService(private val peopleCardRepository: PeopleCardRepository) {
+@EnableConfigurationProperties(PeopleProperties::class)
+class PeopleService(private val peopleCardRepository: PeopleCardRepository,
+                    private val properties: PeopleProperties) {
 
-
-    @Value("\${person.people.card.validExpire:true}")
-    private var validExpire = true;
 
     companion object {
         private val log = org.slf4j.LoggerFactory.getLogger(PeopleService::class.java)
@@ -29,7 +28,7 @@ class PeopleService(private val peopleCardRepository: PeopleCardRepository) {
 
     suspend fun getPeopleCard(id: String): Optional<PeopleCardInfo> {
         val card = peopleCardRepository.get(id)
-        if (card.isPresent && validExpire) {
+        if (card.isPresent && properties.card.validExpire) {
             val expire = card.get().expireEnd
             if (expire != null && LocalDateTime.now().isAfter(expire)) {
                 log.info("People card $id is expired")

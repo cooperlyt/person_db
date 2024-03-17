@@ -15,9 +15,9 @@ class DefaultRocksDbService(rocksDBProperties: RocksDBProperties) {
     private val repositories: MutableMap<String, DefaultRocksDBRepository> = mutableMapOf()
 
     init {
-        rocksDBProperties.dbs.forEach { (name, options) ->
-            repositories[name] = DefaultRocksDBRepository(options.filename)
-        }
+        rocksDBProperties.dbs
+            .filter { it.value.enabled }
+            .forEach { (name, options) -> repositories[name] = DefaultRocksDBRepository(options.filename) }
     }
 
 

@@ -7,9 +7,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 class RocksDBProperties {
 
     class RocksDbOptions {
+        var enabled: Boolean = true
         var filename: String = "rocksdb"
     }
 
     var dbs: Map<String, RocksDbOptions> = mutableMapOf()
+
+    var path: String = "/var/lib/rocksdb"
 
 }

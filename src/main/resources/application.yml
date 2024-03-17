@@ -2,7 +2,8 @@
 
 logging:
   level:
-    io.github.cooperlyt: INFO
+    io.github.cooperlyt: DEBUG
+    org.springframework.security: DEBUG
 
 mis:
   jackson:
@@ -11,21 +12,58 @@ mis:
       local-time-zone: Asia/Shanghai
 
 spring:
+  profiles:
+    active: local
   jackson:
     time-zone: Asia/Shanghai
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          #          issuer-uri: ${KEYCLOAK_ISSUER_URI:${KEYCLOAK_URI}}/realms/${KEYCLOAK_REALM:construction}
+          jwk-set-uri: ${KEYCLOAK_URI:http://192.168.1.21:8943}/realms/${KEYCLOAK_REALM:construction}/protocol/openid-connect/certs
 
 server:
-  port: 8081
+  port: 80
 
 person:
   people:
     card:
+      db: "people-card"
       validExpire: true
 
 rocks:
-  path: /tmp/rocksdb
-  enabled: false
+  path: "/var/lib/rocksdb"
   dbs:
     fs:
+      enabled: false
       filename: fs-db
+
+
+---
+
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+server:
+  port: 8081
+
+rocks:
+  path: "/Users/cooper/Downloads"
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+
+logging:
+  level:
+    io.github.cooperlyt: INFO
+    org.springframework.security: INFO

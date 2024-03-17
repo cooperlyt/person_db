@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 
 abstract class JsonRocksDBRepository<V: Any>(private val objectMapper: ObjectMapper,
-                                             dbFilename: String) : RocksDBRepository<V>(dbFilename){
+                                             dbFilename: String, path: String) : RocksDBRepository<V>(dbFilename, path){
     override fun serialize(value: V): ByteArray {
         return objectMapper.writeValueAsString(value).toByteArray()
     }

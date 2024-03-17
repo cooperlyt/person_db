@@ -9,7 +9,7 @@ import java.nio.file.Files
 import java.util.*
 
 
-abstract class RocksDBRepository<V: Any>(dbFilename: String, path: String = "/Users/cooper/Downloads"): KVRepository<String, V> {
+abstract class RocksDBRepository<V: Any>(dbFilename: String, path: String = "/var/lib/rocksdb"): KVRepository<String, V> {
 
     companion object {
         private val log = org.slf4j.LoggerFactory.getLogger(RocksDBRepository::class.java)
