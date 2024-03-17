@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream
 import java.time.LocalDateTime
 import java.util.*
 import javax.imageio.ImageIO
+import kotlin.jvm.optionals.getOrElse
 
 
 @Service
@@ -38,12 +39,11 @@ class PeopleService(private val peopleCardRepository: PeopleCardRepository,
         return card
     }
 
-    suspend fun getPeoplePicture(id: String): ByteArray {
+    suspend fun getPeoplePicture(id: String): Optional<ByteArray> {
         return peopleCardRepository.get(id)
             .map { it.picture }
             .map(::convertedPicture)
-            .orElseGet(::noPicture)
-
+            .or { if (properties.card.defaultPicture) Optional.of(noPicture()) else Optional.empty() }
     }
 
     private fun convertedPicture(picture: String): ByteArray {

@@ -10,6 +10,8 @@ class PeopleProperties {
         var validExpire: Boolean = true
 
         var db: String = "people-card"
+
+        var defaultPicture: Boolean = false
     }
 
 

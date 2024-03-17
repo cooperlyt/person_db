@@ -32,6 +32,7 @@ person:
     card:
       db: "people-card"
       validExpire: true
+      defaultPicture: true
 
 rocks:
   path: "/var/lib/rocksdb"

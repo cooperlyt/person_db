@@ -9,6 +9,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.HttpClientErrorException
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.switchIfEmpty
 
 @RestController
 @RequestMapping("people")
@@ -33,8 +34,11 @@ class PeopleController(private val peopleService: PeopleService) {
     @GetMapping("/card/{id}/picture")
     fun getPeoplePicture(@PathVariable("id") id: String, response: ServerHttpResponse): Mono<Void> {
         response.headers.contentType = MediaType.IMAGE_JPEG
-        return response.writeWith(mono {peopleService.getPeoplePicture(id) }
+        return response.writeWith(mono { peopleService.getPeoplePicture(id) }
+            .filter{ it.isPresent }
+            .map { it.get() }
             .map{ response.bufferFactory().wrap(it) }
+            .switchIfEmpty { Mono.error(HttpClientErrorException(HttpStatus.NOT_FOUND)) }
         )
     }
 
