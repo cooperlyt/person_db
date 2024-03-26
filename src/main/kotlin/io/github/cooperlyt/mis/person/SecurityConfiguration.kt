@@ -1,4 +1,4 @@
-package org.example.io.github.cooperlyt.mis.person
+package io.github.cooperlyt.mis.person
 
 import io.github.cooperlyt.commons.cloud.keycloak.auth.ReactiveKeycloakAuthenticationConverter
 import org.springframework.context.annotation.Bean

@@ -1,4 +1,4 @@
-package org.example.io.github.cooperlyt.db.rocksdb
+package io.github.cooperlyt.db.rocksdb
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

@@ -1,6 +1,6 @@
-package org.example.io.github.cooperlyt.db.rocksdb.defaultdb
+package io.github.cooperlyt.db.rocksdb.defaultdb
 
-import org.example.io.github.cooperlyt.db.rocksdb.RocksDBProperties
+import io.github.cooperlyt.db.rocksdb.RocksDBProperties
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Service

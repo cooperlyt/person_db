@@ -1,4 +1,4 @@
-package org.example.io.github.cooperlyt.mis.person
+package io.github.cooperlyt.mis.person
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

@@ -1,4 +1,4 @@
-package org.example.io.github.cooperlyt.db.rocksdb.defaultdb
+package io.github.cooperlyt.db.rocksdb.defaultdb
 
 import kotlinx.coroutines.reactor.mono
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty

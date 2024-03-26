@@ -1,4 +1,4 @@
-package org.example.io.github.cooperlyt.mis.person
+package io.github.cooperlyt.mis.person
 
 import io.github.cooperlyt.commons.data.PeopleCardInfo
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -29,7 +29,7 @@ class PeopleService(private val peopleCardRepository: PeopleCardRepository,
 
     suspend fun getPeopleCard(id: String): Optional<PeopleCardInfo> {
         val card = peopleCardRepository.get(id)
-        if (card.isPresent && properties.card.validExpire) {
+        if (card.isPresent && properties.card.validExpire && card.get().expireEnd != null) {
             val expire = card.get().expireEnd
             if (expire != null && LocalDateTime.now().isAfter(expire)) {
                 log.info("People card $id is expired")

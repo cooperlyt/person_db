@@ -1,4 +1,4 @@
-package org.example.io.github.cooperlyt.db.rocksdb
+package io.github.cooperlyt.db.rocksdb
 
 import org.rocksdb.Options
 import org.rocksdb.RocksDB
@@ -42,7 +42,7 @@ abstract class RocksDBRepository<V: Any>(dbFilename: String, path: String = "/va
     @Synchronized
     override fun save(key: String, value: V): Boolean {
         try {
-            log.info("saving key '{}'", key)
+            log.debug("saving key '{}'", key)
             db.put(key.toByteArray(), serialize(value))
         } catch (e: RocksDBException) {
             log.error("Error saving entry in RocksDB, cause: {}, message: {}", e.cause, e.message)
@@ -54,7 +54,7 @@ abstract class RocksDBRepository<V: Any>(dbFilename: String, path: String = "/va
     @Synchronized
     override fun get(key: String): Optional<V> {
         try {
-            log.info("retrieving key '{}'", key)
+            log.debug("read key '{}'", key)
             val bytes = db[key.toByteArray()]
             return if (bytes != null) Optional.of(deserialize(bytes)) else Optional.empty()
         } catch (e: RocksDBException) {
@@ -70,7 +70,7 @@ abstract class RocksDBRepository<V: Any>(dbFilename: String, path: String = "/va
 
     @Synchronized
     override fun delete(key: String): Boolean {
-        log.info("deleting key '{}'", key)
+        log.debug("deleting key '{}'", key)
         try {
             db.delete(key.toByteArray())
         } catch (e: RocksDBException) {

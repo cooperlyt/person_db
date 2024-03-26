@@ -1,4 +1,4 @@
-package org.example.io.github.cooperlyt.db.rocksdb
+package io.github.cooperlyt.db.rocksdb
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
